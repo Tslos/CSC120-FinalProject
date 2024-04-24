@@ -63,6 +63,7 @@ public class Player {
      */
     public void use(Item item) {
         System.out.println(item.use());
+        //Under use, make it so that the item is removed from the inventory (arraylist?). 
     }
 
     /**

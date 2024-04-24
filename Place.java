@@ -15,7 +15,7 @@ public class Place {
     public Place(ArrayList<Item> items,
                 String name, String shortDesc, String longDesc) {
         this.items = items; 
-        this.connections = new Hashtable<String, Place>(); 
+        this.connections = new Hashtable<String, Place>(); //is this the paths between floors or the floors themselves?
         this.name = name;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
