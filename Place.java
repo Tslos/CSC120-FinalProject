@@ -17,6 +17,7 @@ public class Place {
         this.actionOptions = "actionOptions";
     }
 
+
     public Place(String name, String shortDesc, String longDesc, String actionOptions) {
         this.items = new ArrayList<Item>(); 
         this.name = name;
