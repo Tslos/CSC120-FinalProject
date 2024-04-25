@@ -3,42 +3,41 @@ import java.util.Hashtable;
 
 public class Place {
     public ArrayList<Item> items; // an arraylist of interactable objects within a given place
-    public Hashtable<String, Place> connections;
     public String name;
     public String shortDesc;
     public String longDesc;
-    public int x; // the x coord of a given Place within the overall grid of places
-    public int y; // the y coord of a given Place within the overall grid of places
+    public String actionOptions;
 
 
+    public Place() {
+        this.items = new ArrayList<Item>(); 
+        this.name = "name";
+        this.shortDesc = "shortDesc";
+        this.longDesc = "longDesc";
+        this.actionOptions = "actionOptions";
+    }
 
-    public Place(ArrayList<Item> items,
-                String name, String shortDesc, String longDesc) {
-        this.items = items; 
-        this.connections = new Hashtable<String, Place>(); //is this the paths between floors or the floors themselves?
+
+    public Place(String name, String shortDesc, String longDesc, String actionOptions) {
+        this.items = new ArrayList<Item>(); 
         this.name = name;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
+        this.actionOptions = actionOptions;
     }
 
-    public Place moveDirection(String direction) {
-        if (this.connections.containsKey(direction)) {
-            System.out.println("You have moved " + direction);
-            return(this.connections.get(direction)); //return the place that is in that direction
-        } else {
-            System.out.println(direction + " is not a valid direction. Try looking around again to see where you might go!");
-            return(this);
-        }
-    }
-    public String toString(){
-        String walls = "";
-        for (String direction : this.connections.keySet()) {
-            walls += direction + "\n";
-        }
-        return(this.longDesc + "This " + this.name + " has doorways on the following walls: \n" + walls);
+    public String getName() {
+        return(this.name);
     }
 
-    public void addConnection(String direction, Place place) {
-        this.connections.put(direction, place);
+    public void addItem(Item item) {
+        this.items.add(item);
     }
+
+    // public void moveOptions() {
+    //     //this will output a printed list of all the potential actions that a player can make within the room. any other actions will throw an error
+    //     System.out.println("blank");
+    //     // yellow, red, blue
+    // }
+
 }
