@@ -4,15 +4,15 @@ import java.util.List;
 
 public class Player {
     // Attributes
-    protected ArrayList<String> inventory;
+    protected ArrayList<Item> inventory;
     protected Place currentPlace;
-    protected ArrayList<Place> map; // map of complete game
+    private MutableGraph<Place> map;
     protected int playerEnergy;
 
-    public Player(Place currentPlace, ArrayList<Place> map) {
+    public Player(Place currentPlace) {
         this.currentPlace = currentPlace;
         this.map = map;
-        this.inventory = new ArrayList<String>();
+        this.inventory = new ArrayList<Item>();
         this.playerEnergy = 100;
         System.out.println("You have made a Player!");
     }
@@ -22,7 +22,8 @@ public class Player {
      * 
      * @param item the item to grab
      */
-    public void grab(String item) {
+    public void grab(Item item) {
+        // TO DO: Add a check to see if this item is in the room the player is currently in
         this.inventory.add(item);
         System.out.println("You have grabbed a " + item);
     }
@@ -34,7 +35,7 @@ public class Player {
      * @param item the item to drop
      * @return the text that the computer will print to the user after dropping.
      */
-    public String drop(String item) {
+    public void drop(Item item) {
         // TO DO: use Item() class instead of String().
         String speech = "";
         if (this.inventory.contains(item)) {
@@ -44,11 +45,10 @@ public class Player {
             speech = item + " is not in your inventory, you cannot drop it.";
         }
         System.out.println(speech);
-        return (speech);
     }
 
     /**
-     * OVERLOADED TO USE MY DEFINED CLASS: Examine an item.
+     * Examine an item.
      * 
      * @param item the item to examine
      */
@@ -57,7 +57,7 @@ public class Player {
     }
 
     /**
-     * OVERLOADED TO USE MY DEFINED CLASS:Use an item.
+     * Use an item.
      * 
      * @param item the item to use
      */
@@ -70,10 +70,8 @@ public class Player {
      * 
      * @param item the direction to walk
      */
-    public boolean walk(String direction) {
-        boolean validDirection = this.currentPlace.connections.containsKey(direction);
-        Place newPlace = this.currentPlace.moveDirection(direction);
-        this.currentPlace = newPlace;
+    public boolean move(String direction) {
+        
         this.exhaust(1); // walking is somewhat tiring
         System.out.println("Your current location is: " + this.currentPlace.name);
         return (validDirection);
@@ -132,13 +130,13 @@ public class Player {
                 "A kitchen with a stove, sink, and pantry cabinet",
                 "A tile-floored kitchen. Against the west wall is a stove. The north wall is taken up by a large sink basin and an empty pantry cabinet");
         livingRm.addConnection("south", kitchenRm);
-        Player me = new Player(livingRm, new ArrayList<Place>(Arrays.asList(kitchenRm, livingRm)));
-        me.lookAround();
-        me.walk("north");
-        me.walk("south");
-        me.grab("coffee");
-        me.grab("cat!");
-        me.drop("cat!");
+        //Player me = new Player(livingRm, new ArrayList<Place>(Arrays.asList(kitchenRm, livingRm)));
+       // me.lookAround();
+        //me.walk("north");
+       // me.walk("south");
+       // me.grab("coffee");
+       // me.grab("cat!");
+        //me.drop("cat!");
     }
 
 }
