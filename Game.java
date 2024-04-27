@@ -1,9 +1,12 @@
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.google.common.graph.*;
 
 public class Game {
     protected ArrayList<Item> inventory;
-    public  MutableGraph<Place> map;
+    public MutableGraph<Place> map;
     public Place currentPlace;
     public ArrayList<Place> currentConnections;
     public boolean stillPlaying;
@@ -16,10 +19,15 @@ public class Game {
         this.findConnections();
         this.stillPlaying = true;
     }
+
     public MutableGraph<Place> ConstructMap(Place startPlace) {
         MutableGraph<Place> map = GraphBuilder.undirected().build();
-        Place entryway = new Place("Entry Way", "A triangular room with three painted doors.", "On the wall to your left is a red door. It seems newly painted. On the middle of the right wall is a newly painted blue door. To the right of the blue door is a yellow door. Freshly painted seems to be the theme here.", "TBD");
-        Place kitchen = new Place("Kitchen", "A triangular room with a table, cabinets, cauldron, and trap door.", "You are in a kitchen of sorts. Directly to your right is a table and two chairs. On the table are three bottles of liquid and some parchment. Across from you is a bubbling cauldron and on the left wall is a counter and several cabinets. To your immediate left is a trap door with a black lock. The only exit is the red door.", "TBD");
+        Place entryway = new Place("Entry Way", "A triangular room with three painted doors.",
+                "On the wall to your left is a red door. It seems newly painted. On the middle of the right wall is a newly painted blue door. To the right of the blue door is a yellow door. Freshly painted seems to be the theme here.",
+                "TBD");
+        Place kitchen = new Place("Kitchen", "A triangular room with a table, cabinets, cauldron, and trap door.",
+                "You are in a kitchen of sorts. Directly to your right is a table and two chairs. On the table are three bottles of liquid and some parchment. Across from you is a bubbling cauldron and on the left wall is a counter and several cabinets. To your immediate left is a trap door with a black lock. The only exit is the red door.",
+                "TBD");
         Place basement = new Place("Basement", "short desc", "long desc", "TBD");
         Place study = new Place("Study", "short desc", "long desc", "TBD");
         Place bedroom = new Place("Bedroom", "short desc", "long desc", "TBD");
@@ -34,15 +42,20 @@ public class Game {
         map.addNode(bathroom);
         map.addNode(stairs);
         map.addNode(balcony);
-        return(map);
+        return (map);
     }
 
     public void findConnections() {
         this.currentConnections = new ArrayList<Place>(this.map.adjacentNodes(this.currentPlace));
     }
-    /** A helpful function while coding to easily see which rooms are currently "connected" to the currentPlace */
+
+    /**
+     * A helpful function while coding to easily see which rooms are currently
+     * "connected" to the currentPlace
+     */
     public void printConnections() {
-        System.out.println("You are currently in " + this.currentPlace.getName() + "\n\nThe following places are connected to this location:");
+        System.out.println("You are currently in " + this.currentPlace.getName()
+                + "\n\nThe following places are connected to this location:");
         for (Place room : this.currentConnections) {
             System.out.println(room.getName());
         }
@@ -51,7 +64,9 @@ public class Game {
     public void move(String placeName) {
         Place newPlace = null;
         // TO DO: decide what this returns for gameplay loopage
-        // traverse the set of current room connections, pull out the 'name' attribute. If 'name' is the same as the user-input String, pass the corresponding place to replace the currentPlace attribute 
+        // traverse the set of current room connections, pull out the 'name' attribute.
+        // If 'name' is the same as the user-input String, pass the corresponding place
+        // to replace the currentPlace attribute
         for (Place place : this.currentConnections) {
             String name = place.getName();
             if (name == placeName) {
@@ -67,13 +82,51 @@ public class Game {
     }
 
     public void play() {
-        
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What would you like to do?");
+        // System.out.println(this.currentPlace.actionOptions);
+
     }
+
+    public void exectueAction(String action) {
+        if (action.contains("move")) {
+            Pattern pattern = Pattern.compile("(?<=move )\\w+$");
+            Matcher matcher = pattern.matcher(action);
+            if (matcher.find()) {
+                String placeName = matcher.group();
+                this.move(placeName);
+            } else {
+                System.out.println(
+                        "I don't understand... Reprinting action options. Did you mean to say \'move to [place]\'?");
+            }
+        } else if (action.contains("look around")) {
+            System.out.println(this.currentPlace.longDesc);
+        } else if (action.contains("examine")) {
+            Pattern pattern = Pattern.compile("(?<=examine )\\w+$");
+            Matcher matcher = pattern.matcher(action);
+            if (matcher.find()) {
+                String item = matcher.group();
+                System.out.println();
+            } else {
+                System.out.println(
+                        "I don't understand... Reprinting action options. Did you mean to say \'move to [place]\'?");
+            }
+            // do the copy paste shit later
+        } else if (action.contains("take")) {
+            // do a thing
+        } else if (action.contains("drop")) {
+            // do a thing
+        } else {
+            System.out.println("I can't understand that action, please try again");
+            System.out.println(this.currentPlace.actionOptions);
+        }
+
+    }
+
     public static void main(String[] args) {
         Game game = new Game();
-        game.printConnections();
+        // game.play();
+        game.exectueAction("move");
     }
 
 }
-
-
