@@ -61,6 +61,31 @@ public class Game {
         }
     }
 
+    public void executeAction(String action){
+        if (action.contains("move")){
+            String placeName = 
+        }
+        else if (action.contains("look aroud")) {  
+            //look around
+        }
+        else if (action.contains("examine")) {  
+            //look at
+        }
+        else if (action.contains("take")) {  
+            //take item
+        }
+        else if (action.contains("drop")) {  
+            //drop item
+        }
+        else if (action.contains("use potion")) {  
+            //cry
+        }
+        else{
+            System.out.println("I can't understand that, please try again.");
+            System.out.println(this.currentPlace.actionOptions);
+        }
+    }
+
     public void move(String placeName) {
         Place newPlace = null;
         // TO DO: decide what this returns for gameplay loopage
@@ -125,8 +150,10 @@ public class Game {
 
     public static void main(String[] args) {
         Game game = new Game();
-        // game.play();
-        game.exectueAction("move");
+        //Establish the premise with long ass print statement.
+        System.out.println("\nIt's a sunny day and you are surrounded by beautiful grassland and forest to the North, West, and South. Ahead is a tower, similar to one most mages build, and beyond that is your destination: Wildeshore City. Due to excellent travel conditions, you're running two days early and should arrive by nightfall. \n\nAs you begin to pass by the mage's tower you hear a voice from above: \n\"What ho there, traveler! Do you think you could lend an old man a hand?\" \nLooking up, you see a weathered man with a long beard waving down at you from the tower's balcony. When he sees that he has your attention, he calls out again:\n \"I seem to be rather stuck up here! You see, I've locked myself at the top of my tower and dropped the key!\"\nCasting a look around, you indeed see a brass key in the grass next to the tower. \n\"If you could come up and unlock this door, I'd be forever grateful,\" the mage continues, \"I can even give you a reward if you'd like.\" \nA reward does sound nice... and you're running early. \n");
     }
+
+
 
 }
