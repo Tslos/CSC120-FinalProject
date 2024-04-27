@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class Place {
     public ArrayList<Item> items; // an arraylist of interactable objects within a given place
