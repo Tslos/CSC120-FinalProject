@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Place {
-    public ArrayList<Item> items; // an arraylist of interactable objects within a given place
+    public ArrayList<Item> inventory; // an arraylist of interactable objects within a given place
     public String name;
     public String shortDesc;
     public String longDesc;
@@ -9,7 +9,7 @@ public class Place {
 
 
     public Place() {
-        this.items = new ArrayList<Item>(); 
+        this.inventory = new ArrayList<Item>(); 
         this.name = "name";
         this.shortDesc = "shortDesc";
         this.longDesc = "longDesc";
@@ -18,7 +18,7 @@ public class Place {
 
 
     public Place(String name, String shortDesc, String longDesc, String actionOptions) {
-        this.items = new ArrayList<Item>(); 
+        this.inventory = new ArrayList<Item>(); 
         this.name = name;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
@@ -30,8 +30,13 @@ public class Place {
     }
 
     public void addItem(Item item) {
-        this.items.add(item);
+        this.inventory.add(item);
     }
+
+    public void removeItem(Item item) {
+        this.inventory.remove(item);
+    }
+
 
     // public void moveOptions() {
     //     //this will output a printed list of all the potential actions that a player can make within the room. any other actions will throw an error
