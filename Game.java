@@ -12,7 +12,8 @@ public class Game {
 
     public Game() {
         this.inventory = new ArrayList<Item>();
-        Place outside = new Place("Outside", "Outside the tower.", "long description of the outside", "TBD");
+        Place outside = new Place("Outside", "Outside the tower.", "long description of the outside", "null");
+        outside.addItem(new Item("BRASS KEY", "A gleaming brass key", false, 0));
         this.currentPlace = outside;
         this.map = this.ConstructMap(outside);
         this.findConnections();
@@ -21,26 +22,28 @@ public class Game {
 
     public MutableGraph<Place> ConstructMap(Place startPlace) {
         MutableGraph<Place> map = GraphBuilder.undirected().build();
-        Place entryway = new Place("Entry Way", "A triangular room with three painted doors.",
+        Place entryway = new Place("ENTRYWAY", "A triangular room with three painted doors.",
                 "On the wall to your left is a red door. It seems newly painted. On the middle of the right wall is a newly painted blue door. To the right of the blue door is a yellow door. Freshly painted seems to be the theme here.",
-                "TBD");
-        Place kitchen = new Place("Kitchen", "A triangular room with a table, cabinets, cauldron, and trap door.",
+                null);
+        entryway.addItem(new Item("RED KEY",
+                "A painted red key, with a string through its handle so that it can be hung from a keyhook", false, 0));
+        Place kitchen = new Place("KITCHEN", "A triangular room with a table, cabinets, cauldron, and trap door.",
                 "You are in a kitchen of sorts. Directly to your right is a table and two chairs. On the table are three bottles of liquid and some parchment. Across from you is a bubbling cauldron and on the left wall is a counter and several cabinets. To your immediate left is a trap door with a black lock. The only exit is the red door.",
-                "TBD");
-        Place basement = new Place("Basement", "short desc", "long desc", "TBD");
-        Place study = new Place("Study", "short desc", "long desc", "TBD");
-        Place bedroom = new Place("Bedroom", "short desc", "long desc", "TBD");
-        Place bathroom = new Place("bathroom", "short desc", "long desc", "TBD");
-        Place stairs = new Place("Staircase", "short desc", "long desc", "TBD");
-        Place balcony = new Place("Balcony", "short desc", "long desc", "TBD");
+                "RED");
+        Place basement = new Place("BASEMENT", "short desc", "long desc", "BLACK");
+        Place study = new Place("STUDY", "short desc", "long desc", "BLUE");
+        Place bedroom = new Place("BEDROOM", "short desc", "long desc", "ORANGE");
+        Place bathroom = new Place("BATHROOM", "short desc", "long desc", "WHITE");
+        Place stairs = new Place("STAIRCASE", "short desc", "long desc", "YELLOW");
+        Place balcony = new Place("BALCONY", "short desc", "long desc", "BRASS");
         map.putEdge(startPlace, entryway);
-        map.addNode(kitchen);
-        map.addNode(basement);
-        map.addNode(study);
-        map.addNode(bedroom);
-        map.addNode(bathroom);
-        map.addNode(stairs);
-        map.addNode(balcony);
+        map.putEdge(entryway, kitchen);
+        map.putEdge(kitchen, basement);
+        map.putEdge(entryway, study);
+        map.putEdge(study, bedroom);
+        map.putEdge(bedroom, bathroom);
+        map.putEdge(entryway, stairs);
+        map.putEdge(stairs, balcony);
         return (map);
     }
 
@@ -59,38 +62,50 @@ public class Game {
             System.out.println(room.getName());
         }
     }
+    
 
     public void move(String placeName) {
+        //System.out.println("You entered this place to go to: " + placeName);
         Place newPlace = null;
         // TO DO: decide what this returns for gameplay loopage
-        // traverse the set of current room connections, pull out the 'name' attribute.
-        // If 'name' is the same as the user-input String, pass the corresponding place
-        // to replace the currentPlace attribute
+        // For each room next to the current one: is it the place the user wants to go?
         for (Place place : this.currentConnections) {
             String name = place.getName();
-            if (name == placeName) {
-                newPlace = place;
+            //System.out.println("Checking to see if place.getName() (" + name + ") is the same as the entered placeName (" +placeName + ")");
+            //System.out.println(name.equals(placeName));
+            if (placeName.contains(name)) {
+                // loop through each inventory item
+                for (Item item : this.inventory) {
+                    // is it the key that we need? if yes, overwrite newPlace, because we can go there!
+                    if (item.shortDesc.toUpperCase().contains(place.needsKey)) {
+                        newPlace = place;
+                    }
+                }
+                //For the entryway, no key is needed, so this extra step is necessary because the inventory at the moment is 0
+                if (place.needsKey == null) {
+                    newPlace = place; 
+                }
             }
         }
-        if (newPlace == null) {
-            System.out.println("There is not a traversable door between these places");
-        } else {
+        // After all the looping, check if newPlace was overwritten (we had a key and were next to a door)
+        if (newPlace != null) {
+            // If we are good to go, change current places and rewrite current connections
             this.currentPlace = newPlace;
             this.findConnections();
         }
     }
 
-    public String examine(String item) {
+    public void examine(String item) {
         String itemDesc = null;
         for (Item obj : this.inventory) {
-            if (obj.shortDesc == item) {
+            if (obj.name == item) {
                 itemDesc = obj.shortDesc;
                 break;
             }
         }
         if (itemDesc == null) {
             for (Item obj : this.currentPlace.inventory) {
-                if (obj.shortDesc == item) {
+                if (obj.name == item) {
                     itemDesc = obj.shortDesc;
                     break;
                 }
@@ -98,52 +113,61 @@ public class Game {
         }
         itemDesc = itemDesc == null ? "This item does not appear to be nearby. Make sure you typed its name correctly!"
                 : itemDesc;
-        return (itemDesc);
+        System.out.println(itemDesc);
     }
-
 
     public void play() {
         Scanner sc = new Scanner(System.in);
         System.out.println("What would you like to do?");
-        System.out.println(this.currentPlace.actionOptions);
+        //System.out.println(this.currentPlace.actionOptions);
         sc.close();
     }
 
+    public void printInventory() {
+        System.out.println("You have the following items in your inventory:");
+        for (Item item : this.inventory) {
+            System.out.println(item.shortDesc);
+        }
+    }
+
     public void take(String item) {
-        String whatHappens = null;
-        if (whatHappens == null) {
-            for (Item obj : this.inventory) {
-                if (obj.shortDesc == item) {
-                    System.out.println("The item " + obj.shortDesc
-                            + " is already in your inventory! If you meant a different item, make sure you've typed its full name in correctly (i.e., \"red key\" instead of \"key\")");
+        boolean itemFound = false;
+        for (Item obj : this.inventory) {
+            if (item.contains(obj.name)) {
+                System.out.println("The item " + obj.name
+                        + " is already in your inventory! If you meant a different item, make sure you've typed its full name in correctly (i.e., \"RED KEY\" instead of \"KEY\")");
+                itemFound = true;
+                break;
+            }
+        }
+        if (itemFound == false) {
+            for (Item obj : this.currentPlace.inventory) {
+                if (item.contains(obj.name)) {
+                    this.currentPlace.removeItem(obj);
+                    this.inventory.add(obj);
+                    System.out.println("You have taken " + item);
+                    itemFound = true;
                     break;
                 }
             }
         }
-        for (Item obj : this.currentPlace.inventory) {
-            if (obj.shortDesc == item) {
-                this.currentPlace.removeItem(obj);
-                this.inventory.add(obj);
-                break;
-            }
+        if (!itemFound) {
+            System.out.println("This item does not appear to be nearby... make sure you typed it in correctly! (Hint: Type \'take [item]\')");
         }
-        whatHappens = whatHappens == null
-                ? "This item does not appear to be nearby. Make sure you typed its name correctly!"
-                : "You have taken " + item;
-        System.out.println(whatHappens);
     }
 
     public void drop(String item) {
-        String whatHappens = null;
+        boolean itemFound = false;
         for (Item obj : this.inventory) {
-            if (obj.shortDesc == item) {
+            if (item.contains(obj.name)) {
                 this.inventory.remove(obj);
                 this.currentPlace.addItem(obj);
-                System.out.println("You have dropped the " + obj.shortDesc);
+                System.out.println("You have dropped the " + obj.name);
+                itemFound = true;
                 break;
             }
         }
-        if (whatHappens == null) {
+        if (!itemFound) {
             System.out.println("There doesn't appear to be a " + item
                     + "in your inventory. If you think this is an error, make sure you type in the full name of an object!");
         }
@@ -152,7 +176,7 @@ public class Game {
     public void executeAction(String action) {
         Pattern pattern = null;
         Matcher matcher = null;
-        if (action.contains("move")) {
+        if (action.contains("move ")) {
             pattern = Pattern.compile("(?<=move )\\w+$");
             matcher = pattern.matcher(action);
             if (matcher.find()) {
@@ -166,49 +190,40 @@ public class Game {
         } else if (action.contains("look around")) {
             System.out.println(this.currentPlace.longDesc);
 
-        } else if (action.contains("examine")) {
+        } else if (action.contains("examine ")) {
             pattern = Pattern.compile("(?<=examine )\\w+$");
             matcher = pattern.matcher(action);
             if (matcher.find()) {
                 String item = matcher.group();
-                System.out.println(this.examine(item));
+                this.examine(item);
             } else {
                 System.out.println(
                         "I don't understand... Reprinting action options. Did you mean to say \'examine [item]\'?");
             }
 
-        } else if (action.contains("take")) {
-            pattern = Pattern.compile("(?<=take )\\w+$");
-            matcher = pattern.matcher(action);
-            if (matcher.find()) {
-                String item = matcher.group();
-                this.take(item);
-            } else {
-                System.out.println(
-                        "I don't understand... Reprinting action options. Did you mean to say \'take [item]\'?");
-            }
-
-        } else if (action.contains("drop")) {
-            pattern = Pattern.compile("(?<=drop )\\w+$");
-            matcher = pattern.matcher(action);
-            if (matcher.find()) {
-                String item = matcher.group();
-                this.drop(item);
-            } else {
-                System.out.println(
-                        "I don't understand... Reprinting action options. Did you mean to say \'drop [item]\'?");
-            }
-
-        } else {
-            System.out.println("I can't understand that action, please try again");
-            // TO DO: when the loop is more figured out, get rid of this and put it in the play() loop. 
-            System.out.println(this.currentPlace.actionOptions);
-        }
+        } else if (action.contains("take ")) {
+            this.take(action);
+        } else if (action.contains("drop ")) {
+            this.drop(action);
     }
+}
 
     public static void main(String[] args) {
         Game game = new Game();
-        // game.play();
+        System.out.println(game.currentPlace.shortDesc);
+        // works! game.move("ENTRYWAY");
+        for (Item item : game.currentPlace.inventory) {
+            System.out.println(item.name);
+        }
+        game.take("BRASS KEY");
+        //game.drop("BRASS KEY");
+        game.examine("BRASS KEY");
+        game.executeAction("drophjabdkfawelfnjkbvz  BRASS KEY");
+        game.printInventory();
+        game.move("to the OUTSIDE");
+        System.out.println(game.currentPlace.name);
+
+        
 
     }
 

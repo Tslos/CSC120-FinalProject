@@ -1,18 +1,18 @@
 public class Item {
-    String longDesc;
+    String name;
     String shortDesc;
     boolean limitedUse;
     int numUses;
 
 
-    public Item(String longDesc, String shortDesc, boolean limitedUse, int numUses) {
-        this.longDesc = longDesc;
+    public Item(String name, String shortDesc, boolean limitedUse, int numUses) {
+        this.name = name;
         this.shortDesc = shortDesc;
         this.limitedUse = limitedUse;
         this.numUses = numUses;
     }
     public Item(String desc) {
-        this.longDesc = desc;
+        this.name = desc;
         this.shortDesc = desc;
         this.limitedUse = false;
         this.numUses = 1;
