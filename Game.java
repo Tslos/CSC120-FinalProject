@@ -1,7 +1,6 @@
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.google.common.graph.*;
 
 public class Game {
@@ -106,17 +105,81 @@ public class Game {
         }
     }
 
+    public String examine(String item) {
+        String itemDesc = null;
+        for (Item obj : this.inventory) {
+            if (obj.shortDesc == item) {
+                itemDesc = obj.shortDesc;
+                break;
+            }
+        }
+        if (itemDesc == null) {
+            for (Item obj : this.currentPlace.inventory) {
+                if (obj.shortDesc == item) {
+                    itemDesc = obj.shortDesc;
+                    break;
+                }
+            }
+        }
+        itemDesc = itemDesc == null ? "This item does not appear to be nearby. Make sure you typed its name correctly!"
+                : itemDesc;
+        return (itemDesc);
+    }
+
+
     public void play() {
         Scanner sc = new Scanner(System.in);
         System.out.println("What would you like to do?");
-        // System.out.println(this.currentPlace.actionOptions);
-
+        System.out.println(this.currentPlace.actionOptions);
+        sc.close();
     }
 
-    public void exectueAction(String action) {
+    public void take(String item) {
+        String whatHappens = null;
+        if (whatHappens == null) {
+            for (Item obj : this.inventory) {
+                if (obj.shortDesc == item) {
+                    System.out.println("The item " + obj.shortDesc
+                            + " is already in your inventory! If you meant a different item, make sure you've typed its full name in correctly (i.e., \"red key\" instead of \"key\")");
+                    break;
+                }
+            }
+        }
+        for (Item obj : this.currentPlace.inventory) {
+            if (obj.shortDesc == item) {
+                this.currentPlace.removeItem(obj);
+                this.inventory.add(obj);
+                break;
+            }
+        }
+        whatHappens = whatHappens == null
+                ? "This item does not appear to be nearby. Make sure you typed its name correctly!"
+                : "You have taken " + item;
+        System.out.println(whatHappens);
+    }
+
+    public void drop(String item) {
+        String whatHappens = null;
+        for (Item obj : this.inventory) {
+            if (obj.shortDesc == item) {
+                this.inventory.remove(obj);
+                this.currentPlace.addItem(obj);
+                System.out.println("You have dropped the " + obj.shortDesc);
+                break;
+            }
+        }
+        if (whatHappens == null) {
+            System.out.println("There doesn't appear to be a " + item
+                    + "in your inventory. If you think this is an error, make sure you type in the full name of an object!");
+        }
+    }
+
+    public void executeAction(String action) {
+        Pattern pattern = null;
+        Matcher matcher = null;
         if (action.contains("move")) {
-            Pattern pattern = Pattern.compile("(?<=move )\\w+$");
-            Matcher matcher = pattern.matcher(action);
+            pattern = Pattern.compile("(?<=move )\\w+$");
+            matcher = pattern.matcher(action);
             if (matcher.find()) {
                 String placeName = matcher.group();
                 this.move(placeName);
@@ -124,28 +187,48 @@ public class Game {
                 System.out.println(
                         "I don't understand... Reprinting action options. Did you mean to say \'move to [place]\'?");
             }
+
         } else if (action.contains("look around")) {
             System.out.println(this.currentPlace.longDesc);
+
         } else if (action.contains("examine")) {
-            Pattern pattern = Pattern.compile("(?<=examine )\\w+$");
-            Matcher matcher = pattern.matcher(action);
+            pattern = Pattern.compile("(?<=examine )\\w+$");
+            matcher = pattern.matcher(action);
             if (matcher.find()) {
                 String item = matcher.group();
-                System.out.println();
+                System.out.println(this.examine(item));
             } else {
                 System.out.println(
-                        "I don't understand... Reprinting action options. Did you mean to say \'move to [place]\'?");
+                        "I don't understand... Reprinting action options. Did you mean to say \'examine [item]\'?");
             }
-            // do the copy paste shit later
+
         } else if (action.contains("take")) {
-            // do a thing
+            pattern = Pattern.compile("(?<=take )\\w+$");
+            matcher = pattern.matcher(action);
+            if (matcher.find()) {
+                String item = matcher.group();
+                this.take(item);
+            } else {
+                System.out.println(
+                        "I don't understand... Reprinting action options. Did you mean to say \'take [item]\'?");
+            }
+
         } else if (action.contains("drop")) {
-            // do a thing
+            pattern = Pattern.compile("(?<=drop )\\w+$");
+            matcher = pattern.matcher(action);
+            if (matcher.find()) {
+                String item = matcher.group();
+                this.drop(item);
+            } else {
+                System.out.println(
+                        "I don't understand... Reprinting action options. Did you mean to say \'drop [item]\'?");
+            }
+
         } else {
             System.out.println("I can't understand that action, please try again");
+            // TO DO: when the loop is more figured out, get rid of this and put it in the play() loop. 
             System.out.println(this.currentPlace.actionOptions);
         }
-
     }
 
     public static void main(String[] args) {
