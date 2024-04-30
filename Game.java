@@ -21,6 +21,7 @@ public class Game {
 
     public MutableGraph<Place> ConstructMap(Place startPlace) {
         MutableGraph<Place> map = GraphBuilder.undirected().build();
+        Place outside = new Place("Outside Tower", "outside the tower", "Outside the tower", "move inside, pick up brass key.");
         Place entryway = new Place("Entry Way", "A triangular room with three painted doors.",
                 "On the wall to your left is a red door. It seems newly painted. On the middle of the right wall is a newly painted blue door. To the right of the blue door is a yellow door. Freshly painted seems to be the theme here.",
                 "TBD");
@@ -59,31 +60,7 @@ public class Game {
             System.out.println(room.getName());
         }
     }
-
-    public void executeAction(String action){
-        if (action.contains("move")){
-            String placeName = 
-        }
-        else if (action.contains("look aroud")) {  
-            //look around
-        }
-        else if (action.contains("examine")) {  
-            //look at
-        }
-        else if (action.contains("take")) {  
-            //take item
-        }
-        else if (action.contains("drop")) {  
-            //drop item
-        }
-        else if (action.contains("use potion")) {  
-            //cry
-        }
-        else{
-            System.out.println("I can't understand that, please try again.");
-            System.out.println(this.currentPlace.actionOptions);
-        }
-    }
+   
 
     public void move(String placeName) {
         Place newPlace = null;
@@ -131,7 +108,8 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         System.out.println("What would you like to do?");
         System.out.println(this.currentPlace.actionOptions);
-        sc.close();
+        //I commented this off because it wouldn't give me the chance to write anything before throwing an error. 
+        //sc.close();
     }
 
     public void take(String item) {
@@ -235,6 +213,35 @@ public class Game {
         Game game = new Game();
         //Establish the premise with long ass print statement.
         System.out.println("\nIt's a sunny day and you are surrounded by beautiful grassland and forest to the North, West, and South. Ahead is a tower, similar to one most mages build, and beyond that is your destination: Wildeshore City. Due to excellent travel conditions, you're running two days early and should arrive by nightfall. \n\nAs you begin to pass by the mage's tower you hear a voice from above: \n\"What ho there, traveler! Do you think you could lend an old man a hand?\" \nLooking up, you see a weathered man with a long beard waving down at you from the tower's balcony. When he sees that he has your attention, he calls out again:\n \"I seem to be rather stuck up here! You see, I've locked myself at the top of my tower and dropped the key!\"\nCasting a look around, you indeed see a brass key in the grass next to the tower. \n\"If you could come up and unlock this door, I'd be forever grateful,\" the mage continues, \"I can even give you a reward if you'd like.\" \nA reward does sound nice... and you're running early. \n");
+        
+        //flag that we'll turn when we're done with the loop
+        boolean stillPlaying = true;
+
+        // Classic scanner to get user input
+        Scanner userInput = new Scanner(System.in);
+
+         // Storage for user's responses
+        String userAction = "";
+
+        // The do...while structure = go through body of loop once before checking the while condition
+        do {
+            // Game stuff
+            //  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓
+            System.out.println("");
+            game.play();
+            userAction = userInput.nextLine().toUpperCase();
+
+            // ***********************************************************************
+            // And as the player interacts, you'll check to see if the game should end
+            //  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓
+            if (userAction.equals("WIN") || userAction.equals("LOSE")) {
+                stillPlaying = false;
+            }
+        } while (stillPlaying);
+
+     
+        //close scanner
+        userInput.close();
     }
 
 
