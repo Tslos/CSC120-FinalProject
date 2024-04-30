@@ -96,6 +96,7 @@ public class Game {
         }
     }
 
+
     public void move(String placeName) {
         // System.out.println("You entered this place to go to: " + placeName);
         Place newPlace = null;
@@ -159,7 +160,6 @@ public class Game {
         for (Item item : this.inventory) {
             System.out.println(item.shortDesc);
         }
-    }
 
     public void take(String item) {
         boolean itemFound = false;
@@ -285,18 +285,6 @@ public class Game {
 
     public static void main(String[] args) {
         Game game = new Game();
-       /*  System.out.println(game.currentPlace.shortDesc);
-        // works! game.move("ENTRYWAY");
-        for (Item item : game.currentPlace.inventory) {
-            System.out.println(item.name);
-        }
-        game.take("BRASS KEY");
-        // game.drop("BRASS KEY");
-        game.examine("BRASS KEY");
-        game.executeAction("drophjabdkfawelfnjkbvz  BRASS KEY");
-        game.printInventory();
-        game.move("to the OUTSIDE");
-        System.out.println(game.currentPlace.name); */
         game.play();
     }
 
