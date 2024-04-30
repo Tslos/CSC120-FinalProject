@@ -5,7 +5,7 @@ public class Place {
     public String name;
     public String shortDesc;
     public String longDesc;
-    public String actionOptions;
+    public String needsKey;
 
 
     public Place() {
@@ -13,20 +13,24 @@ public class Place {
         this.name = "name";
         this.shortDesc = "shortDesc";
         this.longDesc = "longDesc";
-        this.actionOptions = "actionOptions";
+        this.needsKey = "none";
     }
 
 
-    public Place(String name, String shortDesc, String longDesc, String actionOptions) {
+    public Place(String name, String shortDesc, String longDesc, String needsKey) {
         this.inventory = new ArrayList<Item>(); 
         this.name = name;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
-        this.actionOptions = actionOptions;
+        this.needsKey = needsKey;
     }
 
     public String getName() {
         return(this.name);
+    }
+    
+    public String getKeyColor() {
+        return(this.needsKey);
     }
 
     public void addItem(Item item) {
