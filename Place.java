@@ -28,6 +28,10 @@ public class Place {
     public String getName() {
         return(this.name);
     }
+    
+    public String getKeyColor() {
+        return(this.needsKey);
+    }
 
     public void addItem(Item item) {
         this.inventory.add(item);
