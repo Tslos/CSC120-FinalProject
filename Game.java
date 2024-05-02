@@ -20,8 +20,8 @@ public class Game {
      */
     public Game() {
         this.inventory = new ArrayList<Item>();
-        Place outside = new Place("Outside", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his key. The ENTRYWAY seems to be unlocked", "none");
-        outside.addItem(new Item("BRASS KEY", "A gleaming brass key", false, 0));
+        Place outside = new Place("OUTSIDE", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his BRASS KEY. The ENTRYWAY seems to be unlocked", "none");
+        outside.addItem(new Item("BRASS KEY", "A gleaming BRASS KEY", false, 0));
         this.currentPlace = outside;
         this.map = this.ConstructMap(outside);
         this.findConnections();
@@ -37,48 +37,48 @@ public class Game {
     public MutableGraph<Place> ConstructMap(Place startPlace) {
         MutableGraph<Place> map = GraphBuilder.undirected().build();
         Place entryway = new Place("ENTRYWAY", "A triangular room with three painted doors.",
-                "On the wall to your left is a red door. It seems newly painted. On the middle of the right wall is a newly painted blue door. To the right of the blue door is a yellow door, also newly painted. A red key hands from a string in front of you.",
+                "On the wall to your left is a RED DOOR. It seems newly painted. On the middle of the right wall is a newly painted BLUE DOOR. To the right of the BLUE DOOR is a YELLOW DOOR, also newly painted. A RED KEY hangs from a string in front of you.",
                 "none");
         entryway.addItem(new Item("RED KEY",
-                "A painted red key, with a string through its handle so that it can be hung from a keyhook", false, 0));
-        Place kitchen = new Place("KITCHEN", "A triangular room with a table, cabinets, cauldron, and trap door.",
-                "You are in a kitchen of sorts. Directly to your right is a table and two chairs. On the table are three bottles of liquid, one pink, one cyan, one purple, and some parchment. Across from you is a bubbling cauldron and on the left wall is a counter and several cabinets. To your immediate left is a trap door to the BASEMENT with a black lock. The only exit is the red door.",
+                "A painted RED KEY, with a string through its handle so that it can be hung from a keyhook", false, 0));
+        Place kitchen = new Place("KITCHEN", "A triangular room with a TABLE, CABINETS, CAULDRON, and TRAP DOOR.",
+                "You are in a KITCHEN of sorts. Directly to your right is a TABLE and two CHAIRS. On the TABLE are three bottles of POTION, one PINK, one CYAN, one PURPLE, and some PARCHMENT. Across from you is a bubbling CAULDRON and on the left wall is a counter and several CABINETS. To your immediate left is a trap door to the BASEMENT with a black lock. The only exit is the RED DOOR.",
                 "RED");
-        kitchen.addItem(new Item("CABINET", "A wooden cabinet with some plates inside. Atop the plates is a BLACK KEY.", false, 0));
-        kitchen.addItem(new Item("TABLE", "A nondescript wooden table covered in small cuts. Someone wasn't using a cutting board...", false, 0));
-        kitchen.addItem(new Item("CHAIRS", "A wicker chair. You notice one of the nails in the back is coming out.", false, 0));
-        kitchen.addItem(new Item("NAIL", "A rusty nail", false, 0));
-        kitchen.addItem(new Item("CAULDRON", "A cauldron bubbling with green liquid.", false, 0));
+        kitchen.addItem(new Item("CABINET", "A wooden CABINET with some plates inside. Atop the plates is a BLACK KEY.", false, 0));
+        kitchen.addItem(new Item("TABLE", "A nondescript wooden TABLE covered in small cuts. Someone wasn't using a cutting board...", false, 0));
+        kitchen.addItem(new Item("CHAIRS", "A wicker chair. You notice one of the NAILs in the back is coming out.", false, 0));
+        kitchen.addItem(new Item("NAIL", "A rusty NAIL", false, 0));
+        kitchen.addItem(new Item("CAULDRON", "A CAULDRON bubbling with green liquid.", false, 0));
         kitchen.addItem(new Item("PINK POTION", "A mysterious potion colored pink. You do not know what it does.", false, 0));
         kitchen.addItem(new Item("CYAN POTION", "A mysterious potion colored cyan. You do not know what it does.", false, 0));
         kitchen.addItem(new Item("PURPLE POTION", "A mysterious potion colored purple. You do not know what it does.", false, 0));
         kitchen.addItem(new Item("PARCHMENT", "On this parchment are three diagrams:\nGreen circle + pink circle  = green circle\nGreen circle  + cyan circle  = green circle \nGreen circle  + purple circle  = an empty circle", false, 0));
-        kitchen.addItem(new Item("BLACK KEY", "A painted black key", false, 0));
-        kitchen.addItem(new Item("BLUE KEY", "A painted blue key", false, 0));
+        kitchen.addItem(new Item("BLACK KEY", "A painted BLACK KEY", false, 0));
+        kitchen.addItem(new Item("BLUE KEY", "A painted BLUE KEY", false, 0));
 
-        Place basement = new Place("BASEMENT", "A dank basement full of storage.", "The basement is one large square room with lots of nooks and crannies. There are piles of boxes and old furniture stacked haphazardly around you. This does not seem like a safe place for young nieces to hang about. There is a paper note hanging from a string right in front of your face. ", "BLACK");
-        basement.addItem(new Item("PAPER NOTE", "A paper note that reads \'Darling Niece, this room is dark and musty. If you stay down here you will catch a cold, nothing useful to you is down here. p.s. pay no attention to the giant bees\'", false, 0));
+        Place basement = new Place("BASEMENT", "A dank BASEMENT full of storage.", "The basement is one large square room with lots of nooks and crannies. There are piles of boxes and old furniture stacked haphazardly around you. This does not seem like a safe place for young nieces to hang about. There is a PAPER NOTE hanging from a string right in front of your face. ", "BLACK");
+        basement.addItem(new Item("PAPER NOTE", "A PAPER NOTE that reads \'Darling Niece, this room is dark and musty. If you stay down here you will catch a cold, nothing useful to you is down here. p.s. pay no attention to the giant bees\'", false, 0));
         
-        Place study = new Place("STUDY", "A cozy study room.", "A square area rug covers most of the floor and a large bookshelf with some brown books and some orange books that takes up the whole outside wall. There is a big chair in the corner across from the bookshelf and a door that's been painted orange across from you.", "BLUE");
-        study.addItem(new Item("CHAIR", "An overstuffed chair in the corner of the study", false, 0));
-        study.addItem(new Item("BOOKSHELF", "A bookshelf with some orange books, and some brown. You notice that the orange books form a rectuangular outline on the shelf.", false, 0));
-        study.addItem(new Item("RUG", "A square rug on the floor of the study. There is a small lump underneath... moving the rug reveals an ORANGE KEY", false, 0));
-        study.addItem(new Item("ORANGE KEY", "A painted orange key", false, 0));
+        Place study = new Place("STUDY", "A cozy STUDY room.", "A square area RUG covers most of the floor and a large BOOKSHELF with some brown books and some orange books that takes up the whole outside wall. There is a big CHAIR in the corner across from the BOOKSHELF and a door that's been painted ORANGE across from you.", "BLUE");
+        study.addItem(new Item("CHAIR", "An overstuffed CHAIR in the corner of the STUDY", false, 0));
+        study.addItem(new Item("BOOKSHELF", "A BOOKSHELF with some orange books, and some brown. You notice that the orange books form a rectuangular outline on the shelf.", false, 0));
+        study.addItem(new Item("RUG", "A square RUG on the floor of the STUDY. There is a small lump underneath... moving the rug reveals an ORANGE KEY", false, 0));
+        study.addItem(new Item("ORANGE KEY", "A painted ORANGE KEY", false, 0));
 
-        Place bedroom = new Place("BEDROOM", "A bedroom", "A bedroom with a bed, which has a pillow sitting on top. There is also a door painted white across from you. On the wall is a piece of paper.", "ORANGE");
+        Place bedroom = new Place("BEDROOM", "A BEDROOM", "A BEDROOM with a BED, which has a PILLOW sitting on top. There is also a door painted WHITE across from you. On the wall is a PIECE OF PAPER.", "ORANGE");
         bedroom.addItem(new Item("PIECE OF PAPER", "A paper note that reads: \'I'm soft but I'm not a kitten\nI'm rectangular but I am not a loaf of bread\nI have a case but I'm not a detective\nI sometimes have feathers but I'm not a bird\nI'm found beneath a head but I'm not a scarf\nWhat am I?", false, 0));
         bedroom.addItem(new Item("PILLOW", "A feather pillow. Moving it reveals a WHITE KEY underneath", false, 0));
-        bedroom.addItem(new Item("WHITE KEY", "A painted white key", false, 0));
-        bedroom.addItem(new Item("BED", "A bed with a pillow. There is nothing remarkable about it.", false, 0));
+        bedroom.addItem(new Item("WHITE KEY", "A painted WHITE KEY", false, 0));
+        bedroom.addItem(new Item("BED", "A BED with a PILLOW. There is nothing remarkable about it.", false, 0));
 
-        Place bathroom = new Place("BATHROOM", "A small bathroom", " A bathroom. There's a toilet on the far wall. Closer to the door is a sink with a trash bin underneath and a mirror above.", "WHITE");
-        bathroom.addItem(new Item("TOILET", "This wizard should probably clean his toilet more frequently...", false, 0));
-        bathroom.addItem(new Item("SINK", "A nondescript sink.", false, 0));
-        bathroom.addItem(new Item("TRASH BIN", "A small trashcan underneath the bathroom sink. Moving a piece of tissue reveals a YELLOW KEY!", false, 0));
-        bathroom.addItem(new Item("MIRROR", "This mirror is rather dirty... When you breath on it to try and wipe some grime off, an arrow design is exposed. The arrow points downward...", false, 0));
-        bathroom.addItem(new Item("YELLOW KEY", "A painted yellow key", false, 0));
+        Place bathroom = new Place("BATHROOM", "A small BATHROOM", " A BATHROOM. There's a TOILET on the far wall. Closer to the door is a SINK with a TRASH BIN underneath and a MIRROR above.", "WHITE");
+        bathroom.addItem(new Item("TOILET", "This wizard should probably clean his TOILET more frequently...", false, 0));
+        bathroom.addItem(new Item("SINK", "A nondescript SINK.", false, 0));
+        bathroom.addItem(new Item("TRASH BIN", "A small TRASH BIN underneath the bathroom SINK. Moving a piece of tissue reveals a YELLOW KEY!", false, 0));
+        bathroom.addItem(new Item("MIRROR", "This MIRROR is rather dirty... When you breath on it to try and wipe some grime off, an arrow design is exposed. The arrow points downward...", false, 0));
+        bathroom.addItem(new Item("YELLOW KEY", "A painted YELLOW", false, 0));
 
-        Place stairs = new Place("STAIRCASE", "A tall winding staircase.", "A tall winding spiral staircase. At the top of the stairs is a brass-colored door.", "YELLOW");
+        Place stairs = new Place("STAIRCASE", "A tall winding STAIRCASE.", "A tall winding spiral staircase. At the top of the stairs is a BRASS DOOR.", "YELLOW");
 
         Place balcony = new Place("BALCONY", "A balcony with a scenic view, and a sleepy old man", "A balcony with a scenic view, and a sleepy old man", "BRASS");
         map.putEdge(startPlace, entryway);
@@ -254,11 +254,11 @@ public class Game {
      */
     public void pourPotion(String action) {
         if (action.contains("PINK")) {
-            System.out.println("You pour the pink potion into the cauldron. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
+            System.out.println("You pour the PINK POTION into the CAULDRON. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
         } else if (action.contains("CYAN")) {
-            System.out.println("You pour the cyan potion into the cauldron. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
+            System.out.println("You pour the CYAN POTION into the CAULDRON. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
         }else if (action.contains("PURPLE")) {
-            System.out.println("You pour the purple potion into the cauldron. A puff of smoke goes up, and once it clears, you see the cauldron is now empty of liquid. A BLUE KEY lies in the bottom of it.");
+            System.out.println("You pour the PURPLE POTION into the CAULDRON. A puff of smoke goes up, and once it clears, you see the cauldron is now empty of liquid. A BLUE KEY lies in the bottom of it.");
         }
     }
 
@@ -322,7 +322,7 @@ public class Game {
                         "As you begin to pass by the mage\'s tower you hear a voice from above: \n\"What ho there, traveler! Do you think you could lend an old man a hand?\" \n" + //
                         "Looking up, you see a weathered man with a long beard waving down at you from the tower\'s balcony. When he sees that he has your attention, he calls out again:\n" + //
                         "\"I seem to be rather stuck up here! You see, I was making a puzzle for my neice but I\'ve locked myself at the top of my tower and dropped the key!\"\n" + //
-                        "Casting a look around, you indeed see a brass key in the grass next to the tower. \n" + //
+                        "Casting a look around, you indeed see a BRASS KEY in the grass next to the tower. \n" + //
                         "\"If you could come up and unlock this door, I\'d be forever grateful,\" the mage continues, \"I can even give you a reward if you\'d like.\" \n" + //
                         "A reward does sound nice… and you\'re running early.\n" + //
                         "");
