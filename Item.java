@@ -1,3 +1,8 @@
+/**
+ * The item class creates items that have names, descriptions, and (if they can only be used a set number of times)
+ * sets their limited use and how many times they can be used. 
+ * @author tillie
+ */
 public class Item {
     String name;
     String shortDesc;
@@ -18,6 +23,10 @@ public class Item {
         this.numUses = 1;
     }
 
+    /**
+     * a method that allows the item to be used. 
+     * @return a String stating that the player has used the item. 
+     */
     protected String use() {
         String result = "You have used this " + this.shortDesc;
         if (this.limitedUse) {

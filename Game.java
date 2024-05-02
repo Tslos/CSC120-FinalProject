@@ -3,6 +3,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.google.common.graph.*;
 
+/**
+ * The game class controlls the game, keeps track of the player, and keeps track of the map. 
+ * @author tillie and reed
+ */
 public class Game {
     protected ArrayList<Item> inventory;
     public MutableGraph<Place> map;
@@ -11,6 +15,9 @@ public class Game {
     public boolean stillPlaying;
     public boolean gameComplete;
 
+    /**
+     * the game constructor. sets up the user's inventory, sets up and places the user on the map. 
+     */
     public Game() {
         this.inventory = new ArrayList<Item>();
         Place outside = new Place("Outside", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his key. The ENTRYWAY seems to be unlocked", "none");
@@ -22,6 +29,11 @@ public class Game {
         this.gameComplete = false;
     }
 
+    /**
+     * Creates the map (a mutable graph) for the game. It creates all the places the player can move to and populates that place with an array list of items that live in it. The places and items get string descriptions.
+     * @param startPlace 
+     * @return
+     */
     public MutableGraph<Place> ConstructMap(Place startPlace) {
         MutableGraph<Place> map = GraphBuilder.undirected().build();
         Place entryway = new Place("ENTRYWAY", "A triangular room with three painted doors.",
@@ -30,7 +42,7 @@ public class Game {
         entryway.addItem(new Item("RED KEY",
                 "A painted red key, with a string through its handle so that it can be hung from a keyhook", false, 0));
         Place kitchen = new Place("KITCHEN", "A triangular room with a table, cabinets, cauldron, and trap door.",
-                "You are in a kitchen of sorts. Directly to your right is a table and two chairs. On the table are three bottles of liquid, one pink, one cyan, one purple, and some parchment. Across from you is a bubbling cauldron and on the left wall is a counter and several cabinets. To your immediate left is a trap door with a black lock. The only exit is the red door.",
+                "You are in a kitchen of sorts. Directly to your right is a table and two chairs. On the table are three bottles of liquid, one pink, one cyan, one purple, and some parchment. Across from you is a bubbling cauldron and on the left wall is a counter and several cabinets. To your immediate left is a trap door to the BASEMENT with a black lock. The only exit is the red door.",
                 "RED");
         kitchen.addItem(new Item("CABINET", "A wooden cabinet with some plates inside. Atop the plates is a BLACK KEY.", false, 0));
         kitchen.addItem(new Item("TABLE", "A nondescript wooden table covered in small cuts. Someone wasn't using a cutting board...", false, 0));
@@ -47,14 +59,14 @@ public class Game {
         Place basement = new Place("BASEMENT", "A dank basement full of storage.", "The basement is one large square room with lots of nooks and crannies. There are piles of boxes and old furniture stacked haphazardly around you. This does not seem like a safe place for young nieces to hang about. There is a paper note hanging from a string right in front of your face. ", "BLACK");
         basement.addItem(new Item("PAPER NOTE", "A paper note that reads \'Darling Niece, this room is dark and musty. If you stay down here you will catch a cold, nothing useful to you is down here. p.s. pay no attention to the giant bees\'", false, 0));
         
-        Place study = new Place("STUDY", "A cozy study room.", "A square area rug covers most of the floor and a large bookshelf with some brown books and some orange books that takes up the whole outside wall. There is a big chair in the corner across from the bookshelf and a door that’s been painted orange across from you.", "BLUE");
+        Place study = new Place("STUDY", "A cozy study room.", "A square area rug covers most of the floor and a large bookshelf with some brown books and some orange books that takes up the whole outside wall. There is a big chair in the corner across from the bookshelf and a door that's been painted orange across from you.", "BLUE");
         study.addItem(new Item("CHAIR", "An overstuffed chair in the corner of the study", false, 0));
         study.addItem(new Item("BOOKSHELF", "A bookshelf with some orange books, and some brown. You notice that the orange books form a rectuangular outline on the shelf.", false, 0));
         study.addItem(new Item("RUG", "A square rug on the floor of the study. There is a small lump underneath... moving the rug reveals an ORANGE KEY", false, 0));
         study.addItem(new Item("ORANGE KEY", "A painted orange key", false, 0));
 
-        Place bedroom = new Place("BEDROOM", "A bedroom", "A bedroom with a bed, which has a pillow sitting on top.. There is also a door painted white across from you. On the wall is a piece of paper.", "ORANGE");
-        bedroom.addItem(new Item("PIECE OF PAPER", "A paper note that reads: \'I’m soft but I’m not a kitten\nI’m rectangular but I am not a loaf of bread\nI have a case but I’m not a detective\nI sometimes have feathers but I’m not a bird\nI’m found beneath a head but I’m not a scarf\nWhat am I?", false, 0));
+        Place bedroom = new Place("BEDROOM", "A bedroom", "A bedroom with a bed, which has a pillow sitting on top. There is also a door painted white across from you. On the wall is a piece of paper.", "ORANGE");
+        bedroom.addItem(new Item("PIECE OF PAPER", "A paper note that reads: \'I'm soft but I'm not a kitten\nI'm rectangular but I am not a loaf of bread\nI have a case but I'm not a detective\nI sometimes have feathers but I'm not a bird\nI'm found beneath a head but I'm not a scarf\nWhat am I?", false, 0));
         bedroom.addItem(new Item("PILLOW", "A feather pillow. Moving it reveals a WHITE KEY underneath", false, 0));
         bedroom.addItem(new Item("WHITE KEY", "A painted white key", false, 0));
         bedroom.addItem(new Item("BED", "A bed with a pillow. There is nothing remarkable about it.", false, 0));
@@ -80,7 +92,11 @@ public class Game {
         return (map);
     }
 
-    public void findConnections() {
+    /**
+     * a method that doesn't return anything that finds all the places that are connected to the player's 
+     * current place on the map. This was just to check to make sure the map is working. 
+     */
+    private void findConnections() {
         this.currentConnections = new ArrayList<Place>(this.map.adjacentNodes(this.currentPlace));
     }
 
@@ -97,6 +113,11 @@ public class Game {
     }
 
 
+    /**
+     * a method that allows the player to move between connected places on the map. 
+     * @param placeName a string contianing the place the player wants to move to.
+     * 
+     */
     public void move(String placeName) {
         // System.out.println("You entered this place to go to: " + placeName);
         Place newPlace = null;
@@ -120,6 +141,7 @@ public class Game {
                     newPlace = place;
                 }
             }
+           
         }
         // After all the looping, check if newPlace was overwritten (we had a key and
         // were next to a door)
@@ -129,11 +151,19 @@ public class Game {
             System.out.println("You have moved to " + newPlace.name);
             this.findConnections();
         }
+        else{
+            System.out.println("I'm sorry, you either can't go there yet or misspelled a word. Try again! (If you don't know what to do, try typing \"Help\".) ");
+        }
         if (this.currentPlace.name.contains("BALCONY")) {
             this.gameComplete = true;
         }
+        
     }
 
+    /**
+     * a method that allows the player to learn more about an object. 
+     * @param statement a string containing the name of the item the player wants to learn more about.
+     */
     public void examine(String statement) {
         String itemDesc = null;
         for (Item obj : this.inventory) {
@@ -155,6 +185,10 @@ public class Game {
         System.out.println(itemDesc);
     }
 
+
+    /**
+     * a method that doesn't return anything but does print out the players inventory. 
+     */
     public void printInventory() {
         System.out.println("You have the following items in your inventory:");
         for (Item item : this.inventory) {
@@ -162,6 +196,10 @@ public class Game {
         }
     } 
 
+    /**
+     * a method that allows the player add an item to their inventory. This also removes the item from the room's inventory.
+     * @param item a string containing the name of the object the player wants to add to their inventory. 
+     */
     public void take(String item) {
         boolean itemFound = false;
         for (Item obj : this.inventory) {
@@ -189,6 +227,10 @@ public class Game {
         }
     }
 
+    /**
+     * a method that allows the player to remove an item from their inventory and adds that item to the inventory of the room they are currently in.
+     * @param item a string containing the name of the item
+     */
     public void drop(String item) {
         boolean itemFound = false;
         for (Item obj : this.inventory) {
@@ -202,10 +244,14 @@ public class Game {
         }
         if (!itemFound) {
             System.out.println("There doesn't appear to be a " + item
-                    + "in your inventory. If you think this is an error, make sure you type in the full name of an object!");
+                    + " in your inventory. If you think this is an error, make sure you type in the full name of an object!");
         }
     }
 
+    /**
+     * a method allowing the user to pour a potion into the cauldron, revealing the blue key. 
+     * @param action a string containing the color of the potion they are using. 
+     */
     public void pourPotion(String action) {
         if (action.contains("PINK")) {
             System.out.println("You pour the pink potion into the cauldron. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
@@ -215,6 +261,12 @@ public class Game {
             System.out.println("You pour the purple potion into the cauldron. A puff of smoke goes up, and once it clears, you see the cauldron is now empty of liquid. A BLUE KEY lies in the bottom of it.");
         }
     }
+
+    /**
+     * a method that is run on all scanned user input while the game is being played. It finds the key word for the
+     * available actions (move, take, drop, etc) and sends that input to the appropriate method. 
+     * @param action a string containing what the player wants to do
+     */
     public void executeAction(String action) {
         if (action.contains("MOVE ")) {
             this.move(action);
@@ -233,9 +285,15 @@ public class Game {
             this.stillPlaying = false;
         } else if (action.contains("HELP")) {
             this.help();
+        } else{
+            System.out.println("I'm sorry, I do not understand what you wrote. If you don't know what to do, try typing \"Help\".");
         }
     }
 
+    /**
+     * a method that prints out the actions that the player can do as well as how the game expects the input to be
+     * formateed. 
+     */
     public void help(){
         System.out.println("************** HELP MENU ************** \nYou can call this menu up at any time by typing the command ‘help’ into the console. \nThe action formula this game allows are:\n" + //
                         "move to [place]\n" + //
@@ -249,6 +307,13 @@ public class Game {
                         "help\n");
     }
 
+    /**
+     * a method that sets up the game (imports the scanner, prints exposition and helpful action reccomendations) 
+     * and sets up the do...while loop that will keep the game running. 
+     * When the do...while loop ends, it will print out the end of game code, and let the player accept or decline
+     * the mage's reward offer. 
+     * It also closes the scanner.
+     */
     public void play() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n\n************** WELCOME TO THE MAGE'S TOWER **************\n");
@@ -256,7 +321,7 @@ public class Game {
         System.out.println("It\'s a sunny day and you are surrounded by beautiful grassland. Ahead is a tower, similar to one most mages build, and beyond that is your destination: Wildeshore City. Due to excellent travel conditions, you\'re running two days early and should arrive by nightfall. \n" + //
                         "As you begin to pass by the mage\'s tower you hear a voice from above: \n\"What ho there, traveler! Do you think you could lend an old man a hand?\" \n" + //
                         "Looking up, you see a weathered man with a long beard waving down at you from the tower\'s balcony. When he sees that he has your attention, he calls out again:\n" + //
-                        "\"I seem to be rather stuck up here! You see, I\'ve locked myself at the top of my tower and dropped the key!\"\n" + //
+                        "\"I seem to be rather stuck up here! You see, I was making a puzzle for my neice but I\'ve locked myself at the top of my tower and dropped the key!\"\n" + //
                         "Casting a look around, you indeed see a brass key in the grass next to the tower. \n" + //
                         "\"If you could come up and unlock this door, I\'d be forever grateful,\" the mage continues, \"I can even give you a reward if you\'d like.\" \n" + //
                         "A reward does sound nice… and you\'re running early.\n" + //
@@ -285,6 +350,10 @@ public class Game {
     }
     
 
+    /**
+     * the main method that creates the game and runs the play() method on the new game. 
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         Game game = new Game();
         game.play();
