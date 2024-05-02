@@ -20,8 +20,9 @@ public class Game {
      */
     public Game() {
         this.inventory = new ArrayList<Item>();
-        Place outside = new Place("OUTSIDE", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his BRASS KEY. The ENTRYWAY seems to be unlocked", "none");
-        outside.addItem(new Item("BRASS KEY", "A gleaming BRASS KEY", false, 0));
+        Place outside = new Place("OUTSIDE", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his key. The ENTRYWAY seems to be unlocked", "none", true);
+        outside.addItem(new Item("BRASS KEY", "A gleaming brass key", false, 0));
+
         this.currentPlace = outside;
         this.map = this.ConstructMap(outside);
         this.findConnections();
@@ -37,6 +38,7 @@ public class Game {
     public MutableGraph<Place> ConstructMap(Place startPlace) {
         MutableGraph<Place> map = GraphBuilder.undirected().build();
         Place entryway = new Place("ENTRYWAY", "A triangular room with three painted doors.",
+
                 "On the wall to your left is a RED DOOR. It seems newly painted. On the middle of the right wall is a newly painted BLUE DOOR. To the right of the BLUE DOOR is a YELLOW DOOR, also newly painted. A RED KEY hangs from a string in front of you.",
                 "none");
         entryway.addItem(new Item("RED KEY",
@@ -148,8 +150,12 @@ public class Game {
         if (newPlace != null) {
             // If we are good to go, change current places and rewrite current connections
             this.currentPlace = newPlace;
+            // make sure that 'explored' is set to true for the printExploredLocations function
+            this.currentPlace.explored = true;
             System.out.println("You have moved to " + newPlace.name);
             this.findConnections();
+        } else {
+            System.out.println("It seems like you couldn't move through that door. You might need a key, or perhaps the destination was mispelled?");
         }
         else{
             System.out.println("I'm sorry, you either can't go there yet or misspelled a word. Try again! (If you don't know what to do, try typing \"Help\".) ");
@@ -285,6 +291,10 @@ public class Game {
             this.stillPlaying = false;
         } else if (action.contains("HELP")) {
             this.help();
+        } else if (action.contains("INVENTORY")) {
+            this.printInventory();
+        } else if (action.contains("PAST")) {
+            this.printExploredLocations();
         } else{
             System.out.println("I'm sorry, I do not understand what you wrote. If you don't know what to do, try typing \"Help\".");
         }
@@ -304,10 +314,20 @@ public class Game {
                         "drop [item]\n" + //
                         "pour [color] potion\n" + //
                         "exit\n" + //
+                        "print inventory\n" + //
+                        "print past locations\n" + //
                         "help\n");
     }
 
-    /**
+    public void printExploredLocations() {
+        System.out.println("You have been to all of these locations:");
+        for (Place exploredPlace : this.map.nodes()) {
+            if (exploredPlace.explored) {
+                System.out.println(exploredPlace.name);
+        }
+    }
+    }
+ /**
      * a method that sets up the game (imports the scanner, prints exposition and helpful action reccomendations) 
      * and sets up the do...while loop that will keep the game running. 
      * When the do...while loop ends, it will print out the end of game code, and let the player accept or decline
