@@ -160,6 +160,7 @@ public class Game {
         for (Item item : this.inventory) {
             System.out.println(item.shortDesc);
         }
+    } 
 
     public void take(String item) {
         boolean itemFound = false;
@@ -282,6 +283,7 @@ public class Game {
         }
         sc.close();
     }
+    
 
     public static void main(String[] args) {
         Game game = new Game();
@@ -289,3 +291,4 @@ public class Game {
     }
 
 }
+
