@@ -13,7 +13,7 @@ public class Game {
 
     public Game() {
         this.inventory = new ArrayList<Item>();
-        Place outside = new Place("Outside", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his key. The ENTRYWAY seems to be unlocked", "none");
+        Place outside = new Place("OUTSIDE", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his key. The ENTRYWAY seems to be unlocked", "none", true);
         outside.addItem(new Item("BRASS KEY", "A gleaming brass key", false, 0));
         this.currentPlace = outside;
         this.map = this.ConstructMap(outside);
@@ -25,7 +25,7 @@ public class Game {
     public MutableGraph<Place> ConstructMap(Place startPlace) {
         MutableGraph<Place> map = GraphBuilder.undirected().build();
         Place entryway = new Place("ENTRYWAY", "A triangular room with three painted doors.",
-                "On the wall to your left is a red door. It seems newly painted. On the middle of the right wall is a newly painted blue door. To the right of the blue door is a yellow door, also newly painted. A red key hands from a string in front of you.",
+                "On the wall to your left is a red door. It seems newly painted. On the middle of the right wall is a newly painted BLUE DOOR. To the right of the blue door is a yellow door, also newly painted. A red key hands from a string in front of you.",
                 "none");
         entryway.addItem(new Item("RED KEY",
                 "A painted red key, with a string through its handle so that it can be hung from a keyhook", false, 0));
@@ -126,8 +126,12 @@ public class Game {
         if (newPlace != null) {
             // If we are good to go, change current places and rewrite current connections
             this.currentPlace = newPlace;
+            // make sure that 'explored' is set to true for the printExploredLocations function
+            this.currentPlace.explored = true;
             System.out.println("You have moved to " + newPlace.name);
             this.findConnections();
+        } else {
+            System.out.println("It seems like you couldn't move through that door. You might need a key, or perhaps the destination was mispelled?");
         }
         if (this.currentPlace.name.contains("BALCONY")) {
             this.gameComplete = true;
@@ -232,6 +236,10 @@ public class Game {
             this.stillPlaying = false;
         } else if (action.contains("HELP")) {
             this.help();
+        } else if (action.contains("INVENTORY")) {
+            this.printInventory();
+        } else if (action.contains("PAST")) {
+            this.printExploredLocations();
         }
     }
 
@@ -245,9 +253,19 @@ public class Game {
                         "drop [item]\n" + //
                         "pour [color] potion\n" + //
                         "exit\n" + //
+                        "print inventory\n" + //
+                        "print past locations\n" + //
                         "help\n");
     }
 
+    public void printExploredLocations() {
+        System.out.println("You have been to all of these locations:");
+        for (Place exploredPlace : this.map.nodes()) {
+            if (exploredPlace.explored) {
+                System.out.println(exploredPlace.name);
+        }
+    }
+    }
     public void play() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n\n************** WELCOME TO THE MAGE'S TOWER **************\n");

@@ -6,6 +6,7 @@ public class Place {
     public String shortDesc;
     public String longDesc;
     public String needsKey;
+    public boolean explored;
 
 
     public Place() {
@@ -14,6 +15,7 @@ public class Place {
         this.shortDesc = "shortDesc";
         this.longDesc = "longDesc";
         this.needsKey = "none";
+        this.explored = false;
     }
 
 
@@ -23,6 +25,16 @@ public class Place {
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
         this.needsKey = needsKey;
+        this.explored = false;
+    }
+
+    public Place(String name, String shortDesc, String longDesc, String needsKey, boolean explored) {
+        this.inventory = new ArrayList<Item>(); 
+        this.name = name;
+        this.shortDesc = shortDesc;
+        this.longDesc = longDesc;
+        this.needsKey = needsKey;
+        this.explored = explored;
     }
 
     public String getName() {
