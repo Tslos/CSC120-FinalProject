@@ -1,6 +1,4 @@
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import com.google.common.graph.*;
 
 /**
@@ -235,10 +233,10 @@ public class Game {
      * a method that allows the player to remove an item from their inventory and adds that item to the inventory of the room they are currently in.
      * @param item a string containing the name of the item
      */
-    public void drop(String item) {
+    public void drop(String action) {
         boolean itemFound = false;
         for (Item obj : this.inventory) {
-            if (item.contains(obj.name)) {
+            if (action.contains(obj.name)) {
                 this.inventory.remove(obj);
                 this.currentPlace.addItem(obj);
                 System.out.println("You have dropped the " + obj.name);
@@ -247,7 +245,7 @@ public class Game {
             }
         }
         if (!itemFound) {
-            System.out.println("There doesn't appear to be a " + item
+            System.out.println("There doesn't appear to be a " + obj.name
                     + " in your inventory. If you think this is an error, make sure you type in the full name of an object!");
         }
     }
