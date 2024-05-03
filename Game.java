@@ -154,8 +154,6 @@ public class Game {
             this.currentPlace.explored = true;
             System.out.println("You have moved to " + newPlace.name);
             this.findConnections();
-        } else {
-            System.out.println("It seems like you couldn't move through that door. You might need a key, or perhaps the destination was mispelled?");
         }
         else{
             System.out.println("I'm sorry, you either can't go there yet or misspelled a word. Try again! (If you don't know what to do, try typing \"Help\".) ");
