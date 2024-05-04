@@ -1,22 +1,17 @@
 public class Item {
     String name;
     String shortDesc;
-    boolean limitedUse;
-    int numUses;
 
 
-    public Item(String name, String shortDesc, boolean limitedUse, int numUses) {
+    public Item(String name, String shortDesc) {
         this.name = name;
         this.shortDesc = shortDesc;
-        this.limitedUse = limitedUse;
-        this.numUses = numUses;
     }
     public Item(String desc) {
         this.name = desc;
         this.shortDesc = desc;
-        this.limitedUse = false;
-        this.numUses = 1;
     }
+<<<<<<< Updated upstream
 
     protected String use() {
         String result = "You have used this " + this.shortDesc;
@@ -28,4 +23,6 @@ public class Item {
         }
         return(result);
     }
+=======
+>>>>>>> Stashed changes
 }

@@ -5,16 +5,21 @@ import com.google.common.graph.*;
 
 public class Game {
     protected ArrayList<Item> inventory;
-    public MutableGraph<Place> map;
-    public Place currentPlace;
-    public ArrayList<Place> currentConnections;
-    public boolean stillPlaying;
-    public boolean gameComplete;
+    protected MutableGraph<Place> map;
+    protected Place currentPlace;
+    protected ArrayList<Place> currentConnections;
+    protected boolean stillPlaying;
+    protected boolean gameComplete;
 
     public Game() {
         this.inventory = new ArrayList<Item>();
         Place outside = new Place("OUTSIDE", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his key. The ENTRYWAY seems to be unlocked", "none", true);
+<<<<<<< Updated upstream
         outside.addItem(new Item("BRASS KEY", "A gleaming brass key", false, 0));
+=======
+        outside.addItem(new Item("BRASS KEY", "A gleaming brass key"));
+
+>>>>>>> Stashed changes
         this.currentPlace = outside;
         this.map = this.ConstructMap(outside);
         this.findConnections();
@@ -22,12 +27,22 @@ public class Game {
         this.gameComplete = false;
     }
 
+<<<<<<< Updated upstream
     public MutableGraph<Place> ConstructMap(Place startPlace) {
+=======
+    /**
+     * Creates the map (a mutable graph) for the game. It creates all the places the player can move to and populates that place with an array list of items that live in it. The places and items get string descriptions.
+     * @param startPlace 
+     * @return
+     */
+    protected MutableGraph<Place> ConstructMap(Place startPlace) {
+>>>>>>> Stashed changes
         MutableGraph<Place> map = GraphBuilder.undirected().build();
         Place entryway = new Place("ENTRYWAY", "A triangular room with three painted doors.",
                 "On the wall to your left is a red door. It seems newly painted. On the middle of the right wall is a newly painted BLUE DOOR. To the right of the blue door is a yellow door, also newly painted. A red key hands from a string in front of you.",
                 "none");
         entryway.addItem(new Item("RED KEY",
+<<<<<<< Updated upstream
                 "A painted red key, with a string through its handle so that it can be hung from a keyhook", false, 0));
         Place kitchen = new Place("KITCHEN", "A triangular room with a table, cabinets, cauldron, and trap door.",
                 "You are in a kitchen of sorts. Directly to your right is a table and two chairs. On the table are three bottles of liquid, one pink, one cyan, one purple, and some parchment. Across from you is a bubbling cauldron and on the left wall is a counter and several cabinets. To your immediate left is a trap door with a black lock. The only exit is the red door.",
@@ -65,6 +80,45 @@ public class Game {
         bathroom.addItem(new Item("TRASH BIN", "A small trashcan underneath the bathroom sink. Moving a piece of tissue reveals a YELLOW KEY!", false, 0));
         bathroom.addItem(new Item("MIRROR", "This mirror is rather dirty... When you breath on it to try and wipe some grime off, an arrow design is exposed. The arrow points downward...", false, 0));
         bathroom.addItem(new Item("YELLOW KEY", "A painted yellow key", false, 0));
+=======
+                "A painted RED KEY, with a string through its handle so that it can be hung from a keyhook"));
+        Place kitchen = new Place("KITCHEN", "A triangular room with a TABLE, CABINETS, CAULDRON, and TRAP DOOR.",
+                "You are in a KITCHEN of sorts. Directly to your right is a TABLE and two CHAIRS. On the TABLE are three bottles of POTION, one PINK, one CYAN, one PURPLE, and some PARCHMENT. Across from you is a bubbling CAULDRON and on the left wall is a counter and several CABINETS. To your immediate left is a trap door to the BASEMENT with a black lock. The only exit is the RED DOOR.",
+                "RED");
+        kitchen.addItem(new Item("CABINET", "A wooden CABINET with some plates inside. Atop the plates is a BLACK KEY."));
+        kitchen.addItem(new Item("TABLE", "A nondescript wooden TABLE covered in small cuts. Someone wasn't using a cutting board..."));
+        kitchen.addItem(new Item("CHAIRS", "A wicker chair. You notice one of the NAILs in the back is coming out."));
+        kitchen.addItem(new Item("NAIL", "A rusty NAIL"));
+        kitchen.addItem(new Item("CAULDRON", "A CAULDRON bubbling with green liquid."));
+        kitchen.addItem(new Item("PINK POTION", "A mysterious potion colored pink. You do not know what it does."));
+        kitchen.addItem(new Item("CYAN POTION", "A mysterious potion colored cyan. You do not know what it does."));
+        kitchen.addItem(new Item("PURPLE POTION", "A mysterious potion colored purple. You do not know what it does."));
+        kitchen.addItem(new Item("PARCHMENT", "On this parchment are three diagrams:\nGreen circle + pink circle  = green circle\nGreen circle  + cyan circle  = green circle \nGreen circle  + purple circle  = an empty circle"));
+        kitchen.addItem(new Item("BLACK KEY", "A painted BLACK KEY"));
+        kitchen.addItem(new Item("BLUE KEY", "A painted BLUE KEY"));
+
+        Place basement = new Place("BASEMENT", "A dank BASEMENT full of storage.", "The basement is one large square room with lots of nooks and crannies. There are piles of boxes and old furniture stacked haphazardly around you. This does not seem like a safe place for young nieces to hang about. There is a PAPER NOTE hanging from a string right in front of your face. ", "BLACK");
+        basement.addItem(new Item("PAPER NOTE", "A PAPER NOTE that reads \'Darling Niece, this room is dark and musty. If you stay down here you will catch a cold, nothing useful to you is down here. p.s. pay no attention to the giant bees\'"));
+        
+        Place study = new Place("STUDY", "A cozy STUDY room.", "A square area RUG covers most of the floor and a large BOOKSHELF with some brown books and some orange books that takes up the whole outside wall. There is a big CHAIR in the corner across from the BOOKSHELF and a door that's been painted ORANGE across from you.", "BLUE");
+        study.addItem(new Item("CHAIR", "An overstuffed CHAIR in the corner of the STUDY"));
+        study.addItem(new Item("BOOKSHELF", "A BOOKSHELF with some orange books, and some brown. You notice that the orange books form a rectuangular outline on the shelf."));
+        study.addItem(new Item("RUG", "A square RUG on the floor of the STUDY. There is a small lump underneath... moving the rug reveals an ORANGE KEY"));
+        study.addItem(new Item("ORANGE KEY", "A painted ORANGE KEY"));
+
+        Place bedroom = new Place("BEDROOM", "A BEDROOM", "A BEDROOM with a BED, which has a PILLOW sitting on top. There is also a door painted WHITE across from you. On the wall is a PIECE OF PAPER.", "ORANGE");
+        bedroom.addItem(new Item("PIECE OF PAPER", "A paper note that reads: \'I'm soft but I'm not a kitten\nI'm rectangular but I am not a loaf of bread\nI have a case but I'm not a detective\nI sometimes have feathers but I'm not a bird\nI'm found beneath a head but I'm not a scarf\nWhat am I?"));
+        bedroom.addItem(new Item("PILLOW", "A feather pillow. Moving it reveals a WHITE KEY underneath"));
+        bedroom.addItem(new Item("WHITE KEY", "A painted WHITE KEY"));
+        bedroom.addItem(new Item("BED", "A BED with a PILLOW. There is nothing remarkable about it."));
+
+        Place bathroom = new Place("BATHROOM", "A small BATHROOM", " A BATHROOM. There's a TOILET on the far wall. Closer to the door is a SINK with a TRASH BIN underneath and a MIRROR above.", "WHITE");
+        bathroom.addItem(new Item("TOILET", "This wizard should probably clean his TOILET more frequently..."));
+        bathroom.addItem(new Item("SINK", "A nondescript SINK."));
+        bathroom.addItem(new Item("TRASH BIN", "A small TRASH BIN underneath the bathroom SINK. Moving a piece of tissue reveals a YELLOW KEY!"));
+        bathroom.addItem(new Item("MIRROR", "This MIRROR is rather dirty... When you breath on it to try and wipe some grime off, an arrow design is exposed. The arrow points downward..."));
+        bathroom.addItem(new Item("YELLOW KEY", "A painted YELLOW"));
+>>>>>>> Stashed changes
 
         Place stairs = new Place("STAIRCASE", "A tall winding staircase.", "A tall winding spiral staircase. At the top of the stairs is a brass-colored door.", "YELLOW");
 
@@ -80,7 +134,15 @@ public class Game {
         return (map);
     }
 
+<<<<<<< Updated upstream
     public void findConnections() {
+=======
+    /**
+     * a method that doesn't return anything that finds all the places that are connected to the player's 
+     * current place on the map. This was just to check to make sure the map is working. 
+     */
+    protected void findConnections() {
+>>>>>>> Stashed changes
         this.currentConnections = new ArrayList<Place>(this.map.adjacentNodes(this.currentPlace));
     }
 
@@ -88,7 +150,7 @@ public class Game {
      * A helpful function while coding to easily see which rooms are currently
      * "connected" to the currentPlace
      */
-    public void printConnections() {
+    protected void printConnections() {
         System.out.println("You are currently in " + this.currentPlace.getName()
                 + "\n\nThe following places are connected to this location:");
         for (Place room : this.currentConnections) {
@@ -96,7 +158,16 @@ public class Game {
         }
     }
 
+<<<<<<< Updated upstream
     public void move(String placeName) {
+=======
+    /**
+     * a method that allows the player to move between connected places on the map. 
+     * @param placeName a string contianing the place the player wants to move to.
+     * 
+     */
+    protected void move(String placeName) {
+>>>>>>> Stashed changes
         // System.out.println("You entered this place to go to: " + placeName);
         Place newPlace = null;
         // TO DO: decide what this returns for gameplay loopage
@@ -137,7 +208,15 @@ public class Game {
         }
     }
 
+<<<<<<< Updated upstream
     public void examine(String statement) {
+=======
+    /**
+     * a method that allows the player to learn more about an object. 
+     * @param statement a string containing the name of the item the player wants to learn more about.
+     */
+    protected void examine(String statement) {
+>>>>>>> Stashed changes
         String itemDesc = null;
         for (Item obj : this.inventory) {
             if (statement.contains(obj.name)) {
@@ -158,14 +237,29 @@ public class Game {
         System.out.println(itemDesc);
     }
 
+<<<<<<< Updated upstream
     public void printInventory() {
+=======
+    /**
+     * a method that doesn't return anything but does print out the players inventory. 
+     */
+    protected void printInventory() {
+>>>>>>> Stashed changes
         System.out.println("You have the following items in your inventory:");
         for (Item item : this.inventory) {
             System.out.println(item.shortDesc);
         }
     }
 
+<<<<<<< Updated upstream
     public void take(String item) {
+=======
+    /**
+     * a method that allows the player add an item to their inventory. This also removes the item from the room's inventory.
+     * @param item a string containing the name of the object the player wants to add to their inventory. 
+     */
+    protected void take(String item) {
+>>>>>>> Stashed changes
         boolean itemFound = false;
         for (Item obj : this.inventory) {
             if (item.contains(obj.name)) {
@@ -192,10 +286,24 @@ public class Game {
         }
     }
 
+<<<<<<< Updated upstream
     public void drop(String item) {
+=======
+    /**
+     * a method that allows the player to remove an item from their inventory and adds that item to the inventory of the room they are currently in.
+     * @param item a string containing the name of the item
+     */
+    protected void drop(String action) {
+>>>>>>> Stashed changes
         boolean itemFound = false;
+        String itemName = "";
         for (Item obj : this.inventory) {
+<<<<<<< Updated upstream
             if (item.contains(obj.name)) {
+=======
+            if (action.contains(obj.name)) {
+                itemName = obj.name;
+>>>>>>> Stashed changes
                 this.inventory.remove(obj);
                 this.currentPlace.addItem(obj);
                 System.out.println("You have dropped the " + obj.name);
@@ -204,12 +312,25 @@ public class Game {
             }
         }
         if (!itemFound) {
+<<<<<<< Updated upstream
             System.out.println("There doesn't appear to be a " + item
                     + "in your inventory. If you think this is an error, make sure you type in the full name of an object!");
         }
     }
 
     public void pourPotion(String action) {
+=======
+            System.out.println("There doesn't appear to be a " + itemName
+                    + " in your inventory. If you think this is an error, make sure you type in the full name of an object!");
+        }
+    }
+
+    /**
+     * a method allowing the user to pour a potion into the cauldron, revealing the blue key. 
+     * @param action a string containing the color of the potion they are using. 
+     */
+    protected void pourPotion(String action) {
+>>>>>>> Stashed changes
         if (action.contains("PINK")) {
             System.out.println("You pour the pink potion into the cauldron. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
         } else if (action.contains("CYAN")) {
@@ -218,7 +339,17 @@ public class Game {
             System.out.println("You pour the purple potion into the cauldron. A puff of smoke goes up, and once it clears, you see the cauldron is now empty of liquid. A BLUE KEY lies in the bottom of it.");
         }
     }
+<<<<<<< Updated upstream
     public void executeAction(String action) {
+=======
+
+    /**
+     * a method that is run on all scanned user input while the game is being played. It finds the key word for the
+     * available actions (move, take, drop, etc) and sends that input to the appropriate method. 
+     * @param action a string containing what the player wants to do
+     */
+    protected void executeAction(String action) {
+>>>>>>> Stashed changes
         if (action.contains("MOVE ")) {
             this.move(action);
         } else if (action.contains("LOOK AROUND")) {
@@ -243,7 +374,15 @@ public class Game {
         }
     }
 
+<<<<<<< Updated upstream
     public void help(){
+=======
+    /**
+     * a method that prints out the actions that the player can do as well as how the game expects the input to be
+     * formateed. 
+     */
+    protected void help(){
+>>>>>>> Stashed changes
         System.out.println("************** HELP MENU ************** \nYou can call this menu up at any time by typing the command ‘help’ into the console. \nThe action formula this game allows are:\n" + //
                         "move to [place]\n" + //
                         "move to [color] [door]\n" + //
@@ -258,7 +397,7 @@ public class Game {
                         "help\n");
     }
 
-    public void printExploredLocations() {
+    protected void printExploredLocations() {
         System.out.println("You have been to all of these locations:");
         for (Place exploredPlace : this.map.nodes()) {
             if (exploredPlace.explored) {
@@ -266,6 +405,17 @@ public class Game {
         }
     }
     }
+<<<<<<< Updated upstream
+=======
+ 
+    /**
+     * a method that sets up the game (imports the scanner, prints exposition and helpful action reccomendations) 
+     * and sets up the do...while loop that will keep the game running. 
+     * When the do...while loop ends, it will print out the end of game code, and let the player accept or decline
+     * the mage's reward offer. 
+     * It also closes the scanner.
+     */
+>>>>>>> Stashed changes
     public void play() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n\n************** WELCOME TO THE MAGE'S TOWER **************\n");
