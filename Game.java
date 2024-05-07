@@ -1,6 +1,4 @@
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import com.google.common.graph.*;
 
 /**
@@ -156,9 +154,6 @@ public class Game {
             this.findConnections();
         } else {
             System.out.println("It seems like you couldn't move through that door. You might need a key, or perhaps the destination was mispelled?");
-        }
-        else{
-            System.out.println("I'm sorry, you either can't go there yet or misspelled a word. Try again! (If you don't know what to do, try typing \"Help\".) ");
         }
         if (this.currentPlace.name.contains("BALCONY")) {
             this.gameComplete = true;
