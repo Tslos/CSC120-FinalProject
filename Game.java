@@ -1,6 +1,10 @@
 import java.util.*;
 import com.google.common.graph.*;
 
+/**
+ * The game class controlls the game, keeps track of the player, and keeps track of the map. 
+ * @author tillie and reed
+ */
 public class Game {
     protected ArrayList<Item> inventory;
     protected ImmutableGraph<Place> map;
@@ -9,9 +13,13 @@ public class Game {
     protected boolean stillPlaying;
     protected boolean gameComplete;
 
+    /**
+     * the game constructor. sets up the user's inventory, sets up and places the user on the map. 
+     */
     public Game() {
         this.inventory = new ArrayList<Item>();
         Place outside = new Place("OUTSIDE", "Outside the tower.", "You are outside the mage\'s tower. Grassy fields surround you. The mage is standing up at the top of the tower, pointing you towards where he dropped his key. The ENTRYWAY seems to be unlocked", "none", true);
+
         outside.addItem(new Item("BRASS KEY", "A gleaming brass key"));
         this.currentPlace = outside;
         this.map = this.ConstructMap(outside);
@@ -20,11 +28,13 @@ public class Game {
         this.gameComplete = false;
     }
 
-/**
+
+    /**
      * Creates the map (a mutable graph) for the game. It creates all the places the player can move to and populates that place with an array list of items that live in it. The places and items get string descriptions.
      * @param startPlace 
      * @return
      */
+
     protected ImmutableGraph<Place> ConstructMap(Place startPlace) {
         
         Place entryway = new Place("ENTRYWAY", "A triangular room with three painted doors.",
@@ -69,7 +79,7 @@ public class Game {
         bathroom.addItem(new Item("MIRROR", "This MIRROR is rather dirty... When you breath on it to try and wipe some grime off, an arrow design is exposed. The arrow points downward..."));
         bathroom.addItem(new Item("YELLOW KEY", "A painted YELLOW"));
 
-        Place stairs = new Place("STAIRCASE", "A tall winding staircase.", "A tall winding spiral staircase. At the top of the stairs is a brass-colored door.", "YELLOW");
+        Place stairs = new Place("STAIRCASE", "A tall winding STAIRCASE.", "A tall winding spiral staircase. At the top of the stairs is a BRASS DOOR.", "YELLOW");
 
         Place balcony = new Place("BALCONY", "A balcony with a scenic view, and a sleepy old man", "A balcony with a scenic view, and a sleepy old man", "BRASS");
         ImmutableGraph<Place> map = GraphBuilder.undirected()
@@ -85,11 +95,11 @@ public class Game {
         return(map);
     }
 
-
     /**
      * a method that doesn't return anything that finds all the places that are connected to the player's 
      * current place on the map. This was just to check to make sure the map is working. 
      */
+
     protected void findConnections() {
         this.currentConnections = new ArrayList<Place>(this.map.adjacentNodes(this.currentPlace));
     }
@@ -111,6 +121,7 @@ public class Game {
      * @param placeName a string contianing the place the player wants to move to.
      * 
      */
+
     protected void move(String placeName) {
         // System.out.println("You entered this place to go to: " + placeName);
         Place newPlace = null;
@@ -134,6 +145,7 @@ public class Game {
                     newPlace = place;
                 }
             }
+           
         }
         // After all the looping, check if newPlace was overwritten (we had a key and
         // were next to a door)
@@ -144,18 +156,21 @@ public class Game {
             this.currentPlace.explored = true;
             System.out.println("You have moved to " + newPlace.name);
             this.findConnections();
-        } else {
-            System.out.println("It seems like you couldn't move through that door. You might need a key, or perhaps the destination was mispelled?");
+        }
+        else{
+            System.out.println("I'm sorry, you either can't go there yet or misspelled a word. Try again! (If you don't know what to do, try typing \"Help\".) ");
         }
         if (this.currentPlace.name.contains("BALCONY")) {
             this.gameComplete = true;
         }
+        
     }
 
     /**
      * a method that allows the player to learn more about an object. 
      * @param statement a string containing the name of the item the player wants to learn more about.
      */
+
     protected void examine(String statement) {
         String itemDesc = null;
         for (Item obj : this.inventory) {
@@ -177,6 +192,7 @@ public class Game {
         System.out.println(itemDesc);
     }
 
+
     /**
      * a method that doesn't return anything but does print out the players inventory. 
      */
@@ -185,13 +201,13 @@ public class Game {
         for (Item item : this.inventory) {
             System.out.println(item.shortDesc);
         }
-    }
+    } 
 
     /**
      * a method that allows the player add an item to their inventory. This also removes the item from the room's inventory.
      * @param item a string containing the name of the object the player wants to add to their inventory. 
      */
-    protected void take(String item) {
+protected void take(String item) {
         boolean itemFound = false;
         for (Item obj : this.inventory) {
             if (item.contains(obj.name)) {
@@ -218,16 +234,15 @@ public class Game {
         }
     }
 
-
     /**
      * a method that allows the player to remove an item from their inventory and adds that item to the inventory of the room they are currently in.
      * @param item a string containing the name of the item
      */
+
     protected void drop(String action) {
         boolean itemFound = false;
         String itemName = "";
         for (Item obj : this.inventory) {
-
             if (action.contains(obj.name)) {
                 itemName = obj.name;
                 this.inventory.remove(obj);
@@ -249,11 +264,11 @@ public class Game {
      */
     protected void pourPotion(String action) {
         if (action.contains("PINK")) {
-            System.out.println("You pour the pink potion into the cauldron. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
+            System.out.println("You pour the PINK POTION into the CAULDRON. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
         } else if (action.contains("CYAN")) {
-            System.out.println("You pour the cyan potion into the cauldron. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
+            System.out.println("You pour the CYAN POTION into the CAULDRON. A puff of smoke goes up, but once it clears, nothing has changed. Perhaps you should look around for clues?");
         }else if (action.contains("PURPLE")) {
-            System.out.println("You pour the purple potion into the cauldron. A puff of smoke goes up, and once it clears, you see the cauldron is now empty of liquid. A BLUE KEY lies in the bottom of it.");
+            System.out.println("You pour the PURPLE POTION into the CAULDRON. A puff of smoke goes up, and once it clears, you see the cauldron is now empty of liquid. A BLUE KEY lies in the bottom of it.");
         }
     }
 
@@ -284,8 +299,11 @@ public class Game {
             this.printInventory();
         } else if (action.contains("PAST")) {
             this.printExploredLocations();
+        } else{
+            System.out.println("I'm sorry, I do not understand what you wrote. If you don't know what to do, try typing \"Help\".");
         }
     }
+
     /**
      * a method that prints out the actions that the player can do as well as how the game expects the input to be
      * formateed. 
@@ -313,6 +331,7 @@ public class Game {
         }
     }
     }
+
  
     /**
      * a method that sets up the game (imports the scanner, prints exposition and helpful action reccomendations) 
@@ -328,7 +347,7 @@ public class Game {
         System.out.println("It\'s a sunny day and you are surrounded by beautiful grassland. Ahead is a tower, similar to one most mages build, and beyond that is your destination: Wildeshore City. Due to excellent travel conditions, you\'re running two days early and should arrive by nightfall. \n" + //
                         "As you begin to pass by the mage\'s tower you hear a voice from above: \n\"What ho there, traveler! Do you think you could lend an old man a hand?\" \n" + //
                         "Looking up, you see a weathered man with a long beard waving down at you from the tower\'s balcony. When he sees that he has your attention, he calls out again:\n" + //
-                        "\"I seem to be rather stuck up here! You see, I\'ve locked myself at the top of my tower and dropped the key!\"\n" + //
+                        "\"I seem to be rather stuck up here! You see, I was making a puzzle for my neice but I\'ve locked myself at the top of my tower and dropped the key!\"\n" + //
                         "Casting a look around, you indeed see a BRASS KEY in the grass next to the tower. \n" + //
                         "\"If you could come up and unlock this door, I\'d be forever grateful,\" the mage continues, \"I can even give you a reward if you\'d like.\" \n" + //
                         "A reward does sound nice… and you\'re running early.\n" + //
@@ -355,10 +374,16 @@ public class Game {
         }
         sc.close();
     }
+    
 
+    /**
+     * the main method that creates the game and runs the play() method on the new game. 
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         Game game = new Game();
         game.play();
     }
 
 }
+
