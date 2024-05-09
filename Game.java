@@ -157,9 +157,6 @@ public class Game {
             System.out.println("You have moved to " + newPlace.name);
             this.findConnections();
         }
-        else{
-            System.out.println("I'm sorry, you either can't go there yet or misspelled a word. Try again! (If you don't know what to do, try typing \"Help\".) ");
-        }
         if (this.currentPlace.name.contains("BALCONY")) {
             this.gameComplete = true;
         }
