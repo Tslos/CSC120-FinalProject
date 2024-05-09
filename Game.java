@@ -4,7 +4,7 @@ import com.google.common.graph.*;
 /**
  * The game class controlls the game, keeps track of the player, and keeps track
  * of the map.
- * 
+ *
  * @author tillie and reed
  */
 public class Game {
@@ -38,7 +38,7 @@ public class Game {
      * the player can move to and populates that place with an array list of items
      * that live in it. The places and items get string descriptions. This method
      * can be overridden easily to make similar games on different maps.
-     * 
+     *
      * @param startPlace the starting place for the map, created in the constructor
      * @return the complete map of the game
      */
@@ -151,7 +151,7 @@ public class Game {
      * a method that allows the player to move between connected places on the map,
      * called from within the Game.play loop when Game.executeAction() finds the
      * appropriate keyword.
-     * 
+     *
      * @param statement The string that the user input to the game. If the
      *                  executeAction() method searched correctly, this contains the
      *                  words "move", and if the user input a valid statement, it
@@ -203,7 +203,7 @@ public class Game {
 
     /**
      * a method that allows the player to learn more about an object.
-     * 
+     *
      * @param statement a string containing the name of the item the player wants to
      *                  learn more about.
      */
@@ -243,7 +243,7 @@ public class Game {
     /**
      * a method that allows the player add an item to their inventory. This also
      * removes the item from the room's inventory.
-     * 
+     *
      * @param item a string containing the name of the object the player wants to
      *             add to their inventory.
      */
@@ -277,7 +277,7 @@ public class Game {
     /**
      * a method that allows the player to remove an item from their inventory and
      * adds that item to the inventory of the room they are currently in.
-     * 
+     *
      * @param item a string containing the name of the item
      */
 
@@ -303,7 +303,7 @@ public class Game {
     /**
      * a method allowing the user to pour a potion into the cauldron, revealing the
      * blue key.
-     * 
+     *
      * @param action a string containing the color of the potion they are using.
      */
     protected void pourPotion(String action) {
@@ -323,7 +323,7 @@ public class Game {
      * a method that is run on all scanned user input while the game is being
      * played. It finds the key word for the available actions (move, take, drop,
      * etc) and sends that input to the appropriate method.
-     * 
+     *
      * @param action a string containing what the player wants to do
      */
     protected void executeAction(String action) {
