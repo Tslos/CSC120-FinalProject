@@ -76,10 +76,4 @@ public class Place {
     }
 
 
-    // public void moveOptions() {
-    //     //this will output a printed list of all the potential actions that a player can make within the room. any other actions will throw an error
-    //     System.out.println("blank");
-    //     // yellow, red, blue
-    // }
-
 }
